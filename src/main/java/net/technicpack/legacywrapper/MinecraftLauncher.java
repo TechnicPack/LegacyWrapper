@@ -1,15 +1,12 @@
-
 package net.technicpack.legacywrapper;
-
-import org.spoutcraft.launcher.exceptions.CorruptedMinecraftJarException;
-import org.spoutcraft.launcher.exceptions.MinecraftVerifyException;
-import org.spoutcraft.launcher.exceptions.UnknownMinecraftException;
-import org.spoutcraft.launcher.technic.PackInfo;
 
 import java.applet.Applet;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+
+import net.technicpack.legacywrapper.MinecraftClassLoader;
+import net.technicpack.legacywrapper.exception.*;
 
 public class MinecraftLauncher {
 	private static MinecraftClassLoader loader = null;
@@ -19,7 +16,7 @@ public class MinecraftLauncher {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static Applet getMinecraftApplet() {
+	public static Applet getMinecraftApplet() throws CorruptedMinecraftJarException, MinecraftVerifyException  {
 		File mcBinFolder = pack.getBinDir();
 
 		try {
