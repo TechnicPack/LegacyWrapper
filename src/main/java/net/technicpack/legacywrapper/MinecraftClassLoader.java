@@ -30,8 +30,12 @@ public class MinecraftClassLoader extends URLClassLoader {
 	private HashSet<String> preloaded = new HashSet<String>();
 	private HashMap<String, File> classLocations = new HashMap<String, File>(10000);
 
-	public MinecraftClassLoader(ClassLoader parent, File modpackJar, File[] libraries) {
+    private String assetsDirectory;
+
+	public MinecraftClassLoader(ClassLoader parent, File modpackJar, File[] libraries, StartupParameters startupParams) {
 		super(new URL[0], parent);
+
+        this.assetsDirectory = startupParams.getAssetsDirectory();
 
 		// Move all of the jars we want to use to a temp folder (so we don't create file hooks on them)
 		for (File f : libraries) {
@@ -215,10 +219,11 @@ public class MinecraftClassLoader extends URLClassLoader {
 				return new IteratorEnumerator(resources.get(resource).iterator());
 			}
 			Enumeration<URL> result = null;
+            String canonAssetsPath = (new File(assetsDirectory)).getCanonicalPath();
 			if (resource.startsWith("res/")) {
-				result = getEnumeration(Utils.getAssetsDirectory().getCanonicalPath() + resource.substring(3), resource);
+				result = getEnumeration(canonAssetsPath + resource.substring(3), resource);
 			} else if (resource.startsWith("/res/")) {
-				result = getEnumeration(Utils.getAssetsDirectory().getCanonicalPath() + resource.substring(4), resource);
+				result = getEnumeration(canonAssetsPath + resource.substring(4), resource);
 			}
 
 			if (result != null) {

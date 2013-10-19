@@ -16,11 +16,11 @@ public class MinecraftLauncher {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static Applet getMinecraftApplet() throws CorruptedMinecraftJarException, MinecraftVerifyException  {
-		File mcBinFolder = pack.getBinDir();
+	public static Applet getMinecraftApplet(StartupParameters startupParams) throws CorruptedMinecraftJarException, MinecraftVerifyException  {
+		File mcBinFolder = new File(startupParams.getGameDirectory() , "bin");
 
 		try {
-			ClassLoader classLoader = getClassLoader(pack);
+			ClassLoader classLoader = getClassLoader(startupParams);
 
 			String nativesPath = new File(mcBinFolder, "natives").getAbsolutePath();
 			System.setProperty("org.lwjgl.librarypath", nativesPath);
@@ -28,7 +28,7 @@ public class MinecraftLauncher {
 			System.setProperty("org.lwjgl.util.Debug", "true");
 			System.setProperty("org.lwjgl.util.NoChecks", "false");
 
-			setMinecraftDirectory(classLoader, pack.getPackDirectory());
+			setMinecraftDirectory(classLoader, new File(startupParams.getGameDirectory()));
 
 			Class minecraftClass = classLoader.loadClass("net.minecraft.client.MinecraftApplet");
 			return (Applet) minecraftClass.newInstance();
@@ -45,26 +45,20 @@ public class MinecraftLauncher {
 		}
 	}
 
-	public static MinecraftClassLoader getClassLoader(PackInfo pack) {
+	public static MinecraftClassLoader getClassLoader(StartupParameters startupParameters) {
 		if (loader == null) {
-			File mcBinFolder = pack.getBinDir();
+			File mcBinFolder = new File(startupParameters.getGameDirectory(), "bin");
 
 			File modpackJar = new File(mcBinFolder, "modpack.jar");
 			File minecraftJar = new File(mcBinFolder, "minecraft.jar");
-			File jinputJar = new File(mcBinFolder, "jinput.jar");
-			File lwglJar = new File(mcBinFolder, "lwjgl.jar");
-			File lwjgl_utilJar = new File(mcBinFolder, "lwjgl_util.jar");
 
-			File[] files = new File[5];
+			File[] files = new File[2];
 
 			try {
 				files[0] = modpackJar;
 				files[1] = minecraftJar;
-				files[2] = jinputJar;
-				files[3] = lwglJar;
-				files[4] = lwjgl_utilJar;
 
-				loader = new MinecraftClassLoader(ClassLoader.getSystemClassLoader(), modpackJar, files, pack);
+				loader = new MinecraftClassLoader(ClassLoader.getSystemClassLoader(), modpackJar, files, startupParameters);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
