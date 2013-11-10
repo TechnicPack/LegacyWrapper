@@ -4,6 +4,7 @@ import net.minecraft.Launcher;
 import net.technicpack.legacywrapper.exception.CorruptedMinecraftJarException;
 import net.technicpack.legacywrapper.exception.MinecraftVerifyException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import java.applet.Applet;
@@ -27,7 +28,7 @@ public class Frame extends JFrame implements WindowListener {
     private StartupParameters startupParams;
 
 	public Frame(StartupParameters params) {
-        super("Technic");
+        super(params.getTitle());
         this.startupParams = params;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         width = params.getWidth();
@@ -41,6 +42,10 @@ public class Frame extends JFrame implements WindowListener {
         }
 
         this.setSize(width, height);
+
+		if (params.getIconPath() != null) {
+			this.setIconImage(Toolkit.getDefaultToolkit().getImage(params.getIconPath()));
+		}
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = (int)screenSize.getWidth();

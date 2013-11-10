@@ -64,10 +64,18 @@ public final class StartupParameters {
     @Parameter(names = {"-height"}, description = "Sets the height of the minecraft window to be fixed to this.")
     private int height = -1;
 
+	@Parameter(names = {"-title"}, description = "The title bar text for the Minecraft frame.")
+	private String title = "Minecraft";
+
+	@Parameter(names = {"-icon"}, description = "The title bar icon for the Minecraft frame.")
+	private String icon = null;
+
     public String getAuthPlayerName() { return auth_player_name; }
     public String getAuthSession() { return auth_session; }
     public String getGameDirectory() { return gameDir; }
     public String getAssetsDirectory() { return assetsDir; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
+	public String getTitle() { return title; }
+	public String getIconPath() { return icon; }
 }
