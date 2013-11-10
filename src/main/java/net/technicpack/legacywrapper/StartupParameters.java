@@ -70,6 +70,10 @@ public final class StartupParameters {
 	@Parameter(names = {"--icon"}, description = "The title bar icon for the Minecraft frame.")
 	private String icon = null;
 
+	public List<String> getParameters() {
+		return parameters;
+	}
+
     public String getAuthPlayerName() { return auth_player_name; }
     public String getAuthSession() { return auth_session; }
     public String getGameDirectory() { return gameDir; }

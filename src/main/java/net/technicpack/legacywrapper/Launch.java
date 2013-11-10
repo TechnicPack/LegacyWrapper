@@ -7,7 +7,10 @@ public class Launch {
     public static void main(String[] args) {
         StartupParameters params = new StartupParameters(args);
 
-        new JCommander(params, args);
+	    JCommander jc = new JCommander();
+	    jc.setAcceptUnknownOptions(true);
+	    jc.addObject(params);
+	    jc.parse(args);
         System.out.println(args);
 
         Frame frame = new Frame(params);
