@@ -42,9 +42,16 @@ toolchain rather than targeting Java 8 bytecode. The resulting wrapper runs on
 Java 8. The package phase creates the shaded `target/legacywrapper-1.2.2.jar`;
 do not publish the `original-` jar.
 
-There is no Maven deployment configuration or automated release workflow in
-this repository. The launcher downloads the shaded jar from the Technic static
-library mirror. Publishing requires uploading it through the mirror's
-administrative access to
-`Technic/lib/net/technicpack/legacywrapper/1.2.2/legacywrapper-1.2.2.jar`,
-then updating the launcher's version, download URL, SHA-1 and byte length.
+Publish through the authoritative `technic/mod-repo` repository on
+`git.technicpack.net` (local checkout: `~/Repos/technic-mod-repo`), not by
+uploading directly to the production mirror.
+
+With Git LFS enabled, add the shaded jar at
+`lib/net/technicpack/legacywrapper/1.2.2/legacywrapper-1.2.2.jar`, commit it,
+and push to `main`. Follow that repository's contribution instructions and
+wait for its deployment pipeline to succeed. The pipeline updates the mirror;
+its R2 upload and cache-purge jobs apply only to `mods/`.
+
+Download the published jar through HTTPS and verify its checksum and byte
+length before updating the launcher's dependency pin. Never overwrite an
+existing version with different bytes.
