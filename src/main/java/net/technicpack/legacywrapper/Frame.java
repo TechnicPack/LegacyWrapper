@@ -33,7 +33,7 @@ public class Frame extends JFrame implements WindowListener {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         width = params.getWidth();
         height = params.getHeight();
-        if (width != -1 && height != -1) {
+        if (!params.isMaximize() && width != -1 && height != -1) {
             this.setResizable(false);
         } else {
             this.setResizable(true);
@@ -52,6 +52,9 @@ public class Frame extends JFrame implements WindowListener {
         int screenHeight = (int)screenSize.getHeight();
 
         this.setLocation((screenWidth >> 1) - (width >> 1), (screenHeight >> 1) - (height >> 1));
+        if (params.isMaximize()) {
+            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
 
         this.addWindowListener(this);
  	}

@@ -64,6 +64,9 @@ public final class StartupParameters {
     @Parameter(names = {"--height"}, description = "Sets the height of the minecraft window to be fixed to this.")
     private int height = -1;
 
+    @Parameter(names = {"--maximize"}, description = "Starts Minecraft maximized with a resizable window, ignoring fixed dimensions.")
+    private boolean maximize;
+
 	@Parameter(names = {"--title"}, description = "The title bar text for the Minecraft frame.")
 	private String title = "Minecraft";
 
@@ -80,6 +83,7 @@ public final class StartupParameters {
     public String getAssetsDirectory() { return assetsDir; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
+    public boolean isMaximize() { return maximize; }
 	public String getTitle() { return title; }
 	public String getIconPath() { return icon; }
 }
